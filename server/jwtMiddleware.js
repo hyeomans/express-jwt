@@ -34,9 +34,8 @@ module.exports = (app, passport) => {
 
   authService = {};//we want to inject this later.
 
-  //fullfilling the implicit interface.
-  //users still array from closure.
   authService.findById = (jwtPayloadId) => users.find.bind(users, (user) => user.id === jwtPayloadId);
+  authService.findByName = (name) => users.find.bind(users, (user) => name === user.name);
 
   passport.use(strategy(authService));
   app.use(passport.initialize());
@@ -52,7 +51,7 @@ module.exports = (app, passport) => {
       return next();
     }
 
-    let user = users.find(user => user.name == name);
+    let user = authService.findByName(name);
 
     if (!user) {
       res.status(401).json({message:'no such user found'});
