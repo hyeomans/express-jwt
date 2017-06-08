@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "start": "nodemon server/index"
+  },
+  "dependencies": {
+    "body-parser": "1.17.2",
+    "express": "4.15.3",
+    "jsonwebtoken": "7.4.1",
+    "passport": "0.3.2",
+    "passport-jwt": "2.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "1.11.0"
+  },
+  "name": "jwt-express",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT"
+}
