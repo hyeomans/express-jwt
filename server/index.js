@@ -3,7 +3,8 @@ const bodyParser  = require('body-parser');
 
 const passport    = require('passport');
 
-const jwtMiddleware = require('./jwtMiddleware')(app, passport);
+const arrayAuthService  = require('./arrayAuthService');
+const jwtMiddleware     = require('./jwtMiddleware')(app, passport, arrayAuthService);
 
 // parse application/x-www-form-urlencoded
 // for easier testing with Postman or plain HTML forms

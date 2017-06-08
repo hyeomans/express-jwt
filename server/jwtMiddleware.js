@@ -4,14 +4,6 @@ const passportJWT = require('passport-jwt');
 const extractJwt  = passportJWT.ExtractJwt;
 const JwtStrategy = passportJWT.Strategy;
 
-const users = [
-  {
-    id: 1,
-    name: 'hector',
-    password: 'welcome1'
-  }
-];
-
 const jwtOptions = {
   jwtFromRequest: extractJwt.fromAuthHeader(),
   secretOrKey: '123456'
@@ -30,12 +22,7 @@ function strategy(authService) {
   });
 }
 
-module.exports = (app, passport) => {
-
-  authService = {};//we want to inject this later.
-
-  authService.findById = (jwtPayloadId) => users.find.bind(users, (user) => user.id === jwtPayloadId);
-  authService.findByName = (name) => users.find.bind(users, (user) => name === user.name);
+module.exports = (app, passport, authService) => {
 
   passport.use(strategy(authService));
   app.use(passport.initialize());
