@@ -17,20 +17,28 @@ const jwtOptions = {
   secretOrKey: '123456'
 };
 
-const strategy = new JwtStrategy(jwtOptions, (jwtPayload, next) => {
+function strategy(authService) {
+  return new JwtStrategy(jwtOptions, (jwtPayload, next) => {
 
-  let user = users.find(user => jwtPayload.id == user.id);
+    let user = authService.findById(jwtPayload.id);
 
-  if (user) {
-    next(null, user);
-  } else {
-    next(null, false);
-  }
-});
+    if (user) {
+      next(null, user);
+    } else {
+      next(null, false);
+    }
+  });
+}
 
 module.exports = (app, passport) => {
 
-  passport.use(strategy);
+  authService = {};//we want to inject this later.
+
+  //fullfilling the implicit interface.
+  //users still array from closure.
+  authService.findById = (jwtPayloadId) => users.find.bind(users, (user) => user.id === jwtPayloadId);
+
+  passport.use(strategy(authService));
   app.use(passport.initialize());
 
   return (req, res, next) => {
